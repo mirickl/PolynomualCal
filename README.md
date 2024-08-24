@@ -1,5 +1,5 @@
 # 基于Python实现的一元多项式计算
-
+Unary sparse polynomials based on python
 
 
 
