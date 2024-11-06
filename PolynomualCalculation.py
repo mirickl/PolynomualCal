@@ -18,6 +18,27 @@ class Polynomial:
 
         return Polynomial(new_coefficients).simplify()
 
+    def __sub__(self, other):
+        new_coefficients = self.coefficients.copy()
+
+        for key,value in other.coefficients.items():
+            new_coefficients[key] = new_coefficients.get(key,0) - value
+        return Polynomial(new_coefficients).simplify()
+
+    def __mul__(self, other):
+        #对右边多项式进行按断，看是多项式还是常数项
+        if isinstance(other,Polynomial):
+            new_coefficients = {}
+            for key1,value1 in self.coefficients.items():
+                for key2,value2 in other.coefficients.items():
+                    new_coefficients[key1+key2] = value1*value2
+            return Polynomial(new_coefficients).simplify()
+        elif isinstance(other,(int,float)):
+            new_coefficients = {key : value * other for key,value in self.coefficients.items()}
+            return Polynomial(new_coefficients).simplify()
+        else:
+            return NotImplemented
+
     def __str__(self):
         """输出多项式的字符串表示"""
         if not self.coefficients:
@@ -35,13 +56,6 @@ class Polynomial:
 
         return " + ".join(terms).replace("+ -", "- ")
 
-if __name__ == "__main__":
-    poly1 = Polynomial({3:1,2:3,0 : 8})
-    poly2 = Polynomial({5:1,3:1,4:5, 0: 8})
-
-    result_add = poly1 + poly2
-
-    print(result_add)
 
 
 
